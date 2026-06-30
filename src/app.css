@@ -1,0 +1,179 @@
+/* Theme tokens live here as CSS variables. UnoCSS rules (text-term-*, bg-term-*)
+   resolve to these, so changing [data-theme] reskins the whole site — which is
+   exactly how the future terminal `theme <name>` command will work. */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+:root {
+	--font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, Consolas,
+		monospace;
+	/* Subtle divider color — UnoCSS can't apply /opacity to var() colors, so we
+	   pre-mix it here (resolves per theme via the inherited --term-dim). */
+	--term-line: color-mix(in srgb, var(--term-dim) 25%, transparent);
+}
+
+/* Reset default block-text margins (presetUno doesn't) — spacing is driven by
+   utilities (space-y-*, mt-*). Without this, default <p> margins misalign things
+   like the CV's commit lines against their graph dots. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote {
+	margin: 0;
+}
+
+/* Default theme — a clean neutral dark */
+:root,
+[data-theme='dark'] {
+	--term-bg: #14161b;
+	--term-fg: #d4d7dd;
+	--term-dim: #6b7280;
+	--term-accent: #7aa2f7;
+	--term-green: #9ece6a;
+	--term-yellow: #e0af68;
+	--term-red: #f7768e;
+	--term-blue: #7aa2f7;
+}
+
+/* Light theme — greens/yellows are darkened so they stay legible on a light bg */
+[data-theme='light'] {
+	--term-bg: #f7f8fa;
+	--term-fg: #1f2328;
+	--term-dim: #6e7781;
+	--term-accent: #0969da;
+	--term-green: #1a7f37;
+	--term-yellow: #9a6700;
+	--term-red: #cf222e;
+	--term-blue: #0969da;
+}
+
+[data-theme='gruvbox'] {
+	--term-bg: #282828;
+	--term-fg: #ebdbb2;
+	--term-dim: #a89984;
+	--term-accent: #83a598;
+	--term-green: #b8bb26;
+	--term-yellow: #fabd2f;
+	--term-red: #fb4934;
+	--term-blue: #83a598;
+}
+
+[data-theme='dracula'] {
+	--term-bg: #282a36;
+	--term-fg: #f8f8f2;
+	--term-dim: #6272a4;
+	--term-accent: #bd93f9;
+	--term-green: #50fa7b;
+	--term-yellow: #f1fa8c;
+	--term-red: #ff5555;
+	--term-blue: #8be9fd;
+}
+
+[data-theme='nord'] {
+	--term-bg: #2e3440;
+	--term-fg: #eceff4;
+	--term-dim: #4c566a;
+	--term-accent: #88c0d0;
+	--term-green: #a3be8c;
+	--term-yellow: #ebcb8b;
+	--term-red: #bf616a;
+	--term-blue: #81a1c1;
+}
+
+[data-theme='tokyo-night'] {
+	--term-bg: #1a1b26;
+	--term-fg: #c0caf5;
+	--term-dim: #565f89;
+	--term-accent: #7aa2f7;
+	--term-green: #9ece6a;
+	--term-yellow: #e0af68;
+	--term-red: #f7768e;
+	--term-blue: #7aa2f7;
+}
+
+[data-theme='catppuccin-mocha'] {
+	--term-bg: #1e1e2e;
+	--term-fg: #cdd6f4;
+	--term-dim: #6c7086;
+	--term-accent: #89b4fa;
+	--term-green: #a6e3a1;
+	--term-yellow: #f9e2af;
+	--term-red: #f38ba8;
+	--term-blue: #89b4fa;
+}
+
+[data-theme='rose-pine'] {
+	--term-bg: #191724;
+	--term-fg: #e0def4;
+	--term-dim: #908caa;
+	--term-accent: #ebbcba;
+	/* "foam" — brighter than pine (#31748f), legible at small sizes (prompt/headings) */
+	--term-green: #9ccfd8;
+	--term-yellow: #f6c177;
+	--term-red: #eb6f92;
+	--term-blue: #9ccfd8;
+}
+
+[data-theme='solarized-dark'] {
+	--term-bg: #002b36;
+	--term-fg: #93a1a1;
+	--term-dim: #586e75;
+	--term-accent: #268bd2;
+	--term-green: #859900;
+	--term-yellow: #b58900;
+	--term-red: #dc322f;
+	--term-blue: #268bd2;
+}
+
+/* Light theme — greens/yellows darkened for legibility on the cream background */
+[data-theme='solarized-light'] {
+	--term-bg: #fdf6e3;
+	--term-fg: #586e75;
+	--term-dim: #93a1a1;
+	--term-accent: #268bd2;
+	--term-green: #556b2f;
+	--term-yellow: #7d5800;
+	--term-red: #dc322f;
+	--term-blue: #268bd2;
+}
+
+html {
+	background: var(--term-bg);
+	color: var(--term-fg);
+	font-family: var(--font-mono);
+	-webkit-font-smoothing: antialiased;
+}
+
+/* In terminal mode the styled pages are hidden (the terminal overlay IS the page).
+   They still render in the DOM for SEO / no-JS — no-JS visitors never get
+   [data-mode], so they keep seeing the styled content. */
+html[data-mode='terminal'] .gui-content {
+	display: none;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+}
+
+a {
+	color: inherit;
+}
+
+/* Reset native list markers/indentation (presetUno doesn't). Lists opt back in
+   where wanted — e.g. blog post prose sets `list-style: disc` explicitly. */
+ul,
+ol {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
