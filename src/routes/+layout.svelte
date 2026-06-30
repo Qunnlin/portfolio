@@ -21,10 +21,12 @@
 	// route; it's a pure enhancement (the site works without it).
 	import Terminal from '$lib/components/Terminal.svelte';
 	import ThemeSwitcher from '$lib/components/ThemeSwitcher.svelte';
-	// Vercel Speed Insights. Call once in the root layout.
+	// Vercel Speed Insights & Analytics. Call once in the root layout.
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 
 	injectSpeedInsights();
+	injectAnalytics();
 
 	// Svelte 5 runes: `children` is the page content slot passed to this layout.
 	let { children } = $props();
